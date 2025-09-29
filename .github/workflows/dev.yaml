@@ -25,18 +25,23 @@ jobs:
         subscription-id: "0f48ce1f-16d2-42ba-8b4f-0bef1a58b563"
         enable-AzPSSession: false
 
-    # 🔧 Setup Terraform (Removed invalid 'working-directory' input)
+    # 🔧 Setup Terraform 
     - name: Setup Terraform CLI
-      uses: hashicorp/setup-terraform@v3 
+      uses: hashicorp/setup-terraform@v3
+      # NOTE: Still NO 'working-directory' here
 
     # 1. Initialize
     - name: Terraform Init
-      run: terraform init -chdir=environments/dev # ⬅️ ADDED -chdir
+      # ⬅️ Changes the current working directory for THIS step only
+      working-directory: environments/dev
+      run: terraform init
 
     # 2. Plan
     - name: Terraform Plan
-      run: terraform plan -no-color -chdir=environments/dev # ⬅️ ADDED -chdir
+      working-directory: environments/dev
+      run: terraform plan -no-color
 
     # 3. Apply
     - name: Terraform Apply
-      run: terraform apply -auto-approve -chdir=environments/dev
+      working-directory: environments/dev
+      run: terraform apply -auto-approve
