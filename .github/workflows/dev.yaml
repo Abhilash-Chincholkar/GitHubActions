@@ -25,23 +25,25 @@ jobs:
         subscription-id: "0f48ce1f-16d2-42ba-8b4f-0bef1a58b563"
         enable-AzPSSession: false
 
-    # 🔧 Setup Terraform 
+    # 🔧 Setup Terraform: KEEP THIS CLEAN, only install the CLI
     - name: Setup Terraform CLI
       uses: hashicorp/setup-terraform@v3
-      # NOTE: Still NO 'working-directory' here
+      # 🚫 DO NOT add working-directory input here. The logs confirmed it's invalid.
 
     # 1. Initialize
     - name: Terraform Init
-      # ⬅️ Changes the current working directory for THIS step only
-      working-directory: environments/dev
+      # ⬅️ CORRECT WAY: Set the directory for THIS run step
+      working-directory: environments/dev 
       run: terraform init
 
     # 2. Plan
     - name: Terraform Plan
+      # ⬅️ CORRECT WAY: Set the directory for THIS run step
       working-directory: environments/dev
       run: terraform plan -no-color
 
     # 3. Apply
     - name: Terraform Apply
+      # ⬅️ CORRECT WAY: Set the directory for THIS run step
       working-directory: environments/dev
       run: terraform apply -auto-approve
